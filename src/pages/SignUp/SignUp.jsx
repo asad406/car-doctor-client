@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom';
 import img1 from '../../assets/images/login/login.svg';
+import { useContext } from 'react';
+import { authContext } from '../../Providers/AuthProvider';
 const SignUp = () => {
+    const {createUser} = useContext(authContext);
+
     const handleLogin = (event) => {
         event.preventDefault();
         const form = event.target;
@@ -8,6 +12,15 @@ const SignUp = () => {
         const email = form.email.value;
         const password = form.password.value;
         console.log(email,name, password);
+        
+        createUser(email,password)
+        .then(result => {
+            const newUser = result.user;
+            console.log(newUser)
+        })
+        .catch(error => {
+            console.log(error.message)
+        })
     };
     return (
         <div className="hero min-h-screen bg-base-200">

@@ -1,14 +1,25 @@
 import { Link } from 'react-router-dom';
 import img1 from '../../assets/images/login/login.svg';
+import { useContext } from 'react';
+import { authContext } from '../../Providers/AuthProvider';
 const Login = () => {
-
-    const handleLogin = event => {
-        event.preventDefault()
+    const { logIn } = useContext(authContext);
+    const handleLogin = (event) => {
+        event.preventDefault();
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email,password)
-    }
+        console.log(email, password);
+
+        logIn(email, password)
+            .then((result) => {
+                const user = result.user;
+                console.log(user);
+            })
+            .catch((error) => {
+                console.log(error.message);
+            });
+    };
     return (
         <div className="hero min-h-screen bg-base-200">
             <div className="hero-content flex-col-reverse lg:flex-row">
@@ -28,7 +39,7 @@ const Login = () => {
                                 </label>
                                 <input
                                     type="text"
-                                    name='email'
+                                    name="email"
                                     placeholder="email"
                                     className="input input-bordered"
                                 />
@@ -39,7 +50,7 @@ const Login = () => {
                                 </label>
                                 <input
                                     type="text"
-                                    name='password'
+                                    name="password"
                                     placeholder="password"
                                     className="input input-bordered"
                                 />
@@ -53,9 +64,21 @@ const Login = () => {
                                 </label>
                             </div>
                             <div className="form-control mt-6">
-                                <input type="submit" className="btn btn-primary" value="login" />
+                                <input
+                                    type="submit"
+                                    className="btn btn-primary"
+                                    value="login"
+                                />
                             </div>
-                            <p className='py-4'>New to Car Doctor? <Link className='text-orange-500 font-bold' to={'/signup'}>Sign Up</Link></p>
+                            <p className="py-4">
+                                New to Car Doctor?{' '}
+                                <Link
+                                    className="text-orange-500 font-bold"
+                                    to={'/signup'}
+                                >
+                                    Sign Up
+                                </Link>
+                            </p>
                         </form>
                     </div>
                 </div>
